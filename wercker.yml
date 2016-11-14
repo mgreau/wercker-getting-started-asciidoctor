@@ -1,0 +1,43 @@
+box: 
+   id: asciidoctor/docker-asciidoctor
+   ports:
+    - "8000"
+dev:
+  steps:
+    # Web Server
+    - script:
+        name: start python webserver
+        code: |
+          cd /documents && python -m SimpleHTTPServer 8000 &
+          echo "HTTP Server listening..."
+    # listener to adoc files
+    - internal/watch:
+        code: |
+          cp -R samples/images /documents/images
+          asciidoctor-pdf -D /documents/ *.adoc **/*.adoc
+          asciidoctor -D /documents/ *.adoc **/*.adoc
+        reload: true
+
+
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+
+    # Copy required resources
+    - script:
+        name: Copy images...
+        code: |
+          cp -R samples/images /documents/images    
+
+    # Build the HTML output
+    - script:
+        name: AsciiDoc to HTML
+        code: |
+          asciidoctor -D /documents/ *.adoc **/*.adoc
+
+    # Build the PDF output
+    - script:
+        name: AsciiDoc to PDF
+        code: |
+          asciidoctor-pdf -D /documents/ *.adoc **/*.adoc

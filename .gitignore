@@ -1,0 +1,11 @@
+*.iml
+.DS_Store
+.idea
+.DS_STORE
+
+# Directory for output files (HTML, PDF...)
+output/
+
+# Wercker
+wercker
+.wercker

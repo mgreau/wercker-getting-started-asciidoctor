@@ -1,0 +1,15 @@
+= Getting started with Wercker and Asciidoctor
+
+== Dev Auto Reload
+
+[source]
+----
+$ wercker dev --expose-ports 5000 --docker-host unix:///var/run/docker.sock 
+----
+
+== Build the project
+
+[source]
+----
+$ wercker build --enable-volumes --docker-host unix:///var/run/docker.sock 
+----
